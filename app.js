@@ -11,8 +11,11 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 const employees = [];
 
+function questions(){
+
+
 inquirer.prompt([
-    {
+     {
         type: "input",
         message: "What is the employee's name?",
         name: "name"
@@ -26,7 +29,7 @@ inquirer.prompt([
         type: "input",
         message: "What is the team member's ID?",
         name: "id"
-    },
+    }, 
     {
         type: "checkbox",
         message: "Please choose the team member's role?",
@@ -35,11 +38,12 @@ inquirer.prompt([
      },   
 ])
  //determining which role was chosen
-.then(function({role}){
+.then(function({name, id, email, role}){
+    console.log(role[0])
     let specInfo = "";
-    if (role === "Manager"){
+    if (role[0] === "Manager"){
         specInfo = "Office number";
-    }else if (role === "Engineer"){
+    }else if (role[0] === "Engineer"){
         specInfo = "GitHub username";
     }else {
         specInfo = "school name";
@@ -53,8 +57,39 @@ inquirer.prompt([
                 name: "info"
             }
         ])
-});
+        .then(function({info}){
+            console.log(info);
+            let newEmployee;
+            if(role[0] === "Manager"){
+                //push employees to new employee array
+                newEmployee = new Manager(name, id, email, role[0], info)
+                //console.log(newEmployee)
+            }else if (role[0] === "Engineer"){
+                newEmployee = new Engineer(name, id, email, role[0], info)
+            }else {
+                newEmployee = new Intern(name, id, email, role[0], info);
 
+            }employees.push
+                  
+            inquirer
+                .prompt([
+                    {
+                        type: "confirm",
+                        message: "Would you like to add another employee?",
+                        name: "employee"
+                    }
+                ])
+                .then(function({employee}){
+                    if(employee){
+                        questions();
+                    }else{
+                        
+                    }
+                })
+        })
+    
+});
+}
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
