@@ -1,6 +1,5 @@
 const Intern = require("../lib/Intern");
 
-describe("Intern", () => {
   test("Can set school via constructor", () => {
     const testValue = "UCLA";
     const e = new Intern("Foo", 1, "test@test.com", testValue);
@@ -18,5 +17,3 @@ describe("Intern", () => {
     const e = new Intern("Foo", 1, "test@test.com", testValue);
     expect(e.getSchool()).toBe(testValue);
   });
-
-});
