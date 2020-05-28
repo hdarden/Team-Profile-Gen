@@ -9,38 +9,46 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const employees = [];
 
 inquirer.prompt([
     {
         type: "input",
-        message: "What is your email?",
+        message: "What is the team member's email?",
         name: "email"
     },
     {
         type: "input",
-        message: "What is your ID?",
+        message: "What is the team member's ID?",
         name: "id"
     },
     {
         type: "checkbox",
-        message: "What is your role?",
+        message: "Please choose the team member's role?",
         name: "role",
         choices: ["Manager", "Engineer", "Intern"]
-     } 
-    /* (choices.Manager){
-        prompt.next({
-            {
-                type: "input",
-                message: "What is your office number?",
-                name: "office"
-            }
-        })
-    } */
-  
+     },   
 ])
  
-.then(function(answers){
-    console.log(answers)
+.then(function({email, id, role}){
+    var specInfo = "";
+    if (role === "Manager"){
+        specInfo = "office number"
+    }else if (role === "Engineer"){
+        specInfo = "GitHub username";
+    }else{
+        specInfo = "school name"
+    }
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: `What is your team member's ${specInfo}?`,
+                name: "info"
+            }
+        ])
+
+
     
 });
 
