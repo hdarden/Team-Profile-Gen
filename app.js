@@ -14,6 +14,11 @@ const employees = [];
 inquirer.prompt([
     {
         type: "input",
+        message: "What is the employee's name?",
+        name: "name"
+    },
+    {
+        type: "input",
         message: "What is the team member's email?",
         name: "email"
     },
@@ -29,16 +34,17 @@ inquirer.prompt([
         choices: ["Manager", "Engineer", "Intern"]
      },   
 ])
- 
-.then(function({email, id, role}){
-    var specInfo = "";
+ //determining which role was chosen
+.then(function({role}){
+    let specInfo = "";
     if (role === "Manager"){
-        specInfo = "office number"
+        specInfo = "Office number";
     }else if (role === "Engineer"){
         specInfo = "GitHub username";
-    }else{
-        specInfo = "school name"
+    }else {
+        specInfo = "school name";
     }
+//prompting the question based off of role chosen--not prompting correctly
     inquirer
         .prompt([
             {
@@ -47,9 +53,6 @@ inquirer.prompt([
                 name: "info"
             }
         ])
-
-
-    
 });
 
 
