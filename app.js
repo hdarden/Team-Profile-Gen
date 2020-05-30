@@ -11,83 +11,94 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 const employees = [];
 
-function questions(){
-inquirer.prompt([
-     {
+//function for all inquirer questions. Gets all employee info
+function questions() {
+    //prompts for employee info
+  inquirer
+    .prompt([
+      {
         type: "input",
         message: "What is the employee's name?",
-        name: "name"
-    },
-    {
+        name: "name",
+      },
+      {
         type: "input",
         message: "What is the team member's email?",
-        name: "email"
-    },
-    {
+        name: "email",
+      },
+      {
         type: "input",
         message: "What is the team member's ID?",
-        name: "id"
-    }, 
-    {
+        name: "id",
+      },
+      {
         type: "checkbox",
         message: "Please choose the team member's role?",
         name: "role",
-        choices: ["Manager", "Engineer", "Intern"]
-     },   
-])
- //determining which role was chosen
-.then(function({name, id, email, role}){
-    console.log(role[0])
-    let specInfo = "";
-    if (role[0] === "Manager"){
+        choices: ["Manager", "Engineer", "Intern"],
+      },
+    ])
+    //determining which role was chosen
+    .then(function ({ name, id, email, role }) {
+      console.log(role[0]);
+      let specInfo = "";
+      if (role[0] === "Manager") {
         specInfo = "Office number";
-    }else if (role[0] === "Engineer"){
+      } else if (role[0] === "Engineer") {
         specInfo = "GitHub username";
-    }else {
+      } else {
         specInfo = "school name";
-    }
-//prompting the question based off of role chosen--not prompting correctly
-    inquirer
+      }
+
+      //prompting the question based off of role chosen--not prompting correctly
+      inquirer
         .prompt([
-            {
-                type: "input",
-                message: `What is your team member's ${specInfo}?`,
-                name: "info"
-            }
+          {
+            type: "input",
+            message: `What is your team member's ${specInfo}?`,
+            name: "info",
+          },
         ])
-        .then(function({info}){
-            console.log(info);
-            let newEmployee;
-            if(role[0] === "Manager"){
-                //push employees to new employee array
-                newEmployee = new Manager(name, id, email, role[0], info)
-                //console.log(newEmployee)
-            }else if (role[0] === "Engineer"){
-                newEmployee = new Engineer(name, id, email, role[0], info)
-            }else {
-                newEmployee = new Intern(name, id, email, role[0], info);
+        .then(function ({ info }) {
+          console.log(info);
+          let newEmployee;
+          if (role[0] === "Manager") {
+            newEmployee = new Manager(name, id, email, role[0], info);
+          } else if (role[0] === "Engineer") {
+            newEmployee = new Engineer(name, id, email, role[0], info);
+          } else {
+            newEmployee = new Intern(name, id, email, role[0], info);
+          } //push employees to new employee array on line 12
+          employees.push(newEmployee);
+          
+          //prompts user to comfirm if they want to add more employees
+          inquirer
+            .prompt([
+              {
+                type: "confirm",
+                message: "Would you like to add another employee?",
+                name: "employee",
+              },
+            ])
+            .then(function ({ employee }) {
+              if (employee) {
+                questions();
+              } else {
+                let employeeList = render(employees);
 
-            }employees.push(newEmployee)
-
-            inquirer
-                .prompt([
-                    {
-                        type: "confirm",
-                        message: "Would you like to add another employee?",
-                        name: "employee"
-                    }
-                ])
-                .then(function({employee}){
-                    if(employee){
-                        questions();
-                    }else{
-                        
-                    }
-                })
-        })
-    
-});
+                fs.writeFile(outputPath, employeeList, "utf8", (err) => {
+                  if (err) {
+                    return err;
+                  } else {
+                    console.log("Success!");
+                  }
+                });
+              }
+            });
+        });
+    });
 }
+
 questions();
 
 // Write code to use inquirer to gather information about the development team members,
