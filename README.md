@@ -9,7 +9,7 @@ The purpose of this Team Profile Generator is to build a Node CLI that takes in 
 * [Installation](#installation)  
 * [Testing](#testing)  
 * [Dependencies](#dependencies)  
-* [Video of App](#video)
+* [Video Demo](#video)
 * [Screenshot](#screen-shot)  
 
 
@@ -31,8 +31,8 @@ npm run test
 Inquirer
 
 
-## Video of App
-<iframe src="https://drive.google.com/file/d/1lV3s5tGY8JhTBoKPVKqUBlXtbRL_qv6c/preview" width="640" height="480"></iframe>
+## Video Demo
+[Watch Demo](https://drive.google.com/file/d/1lV3s5tGY8JhTBoKPVKqUBlXtbRL_qv6c/view?usp=sharing)
 
 ## Screen Shot
 <img width="890" alt="Screen Shot 2020-05-30 at 3 38 52 PM" src="https://user-images.githubusercontent.com/63661120/83338194-d5403780-a28f-11ea-8bb3-a12031c7cc9b.png">
